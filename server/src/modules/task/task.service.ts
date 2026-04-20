@@ -3,18 +3,33 @@ import type { CreateTaskDTO, GetTaskDTO } from "./task.view";
 
 export class TaskService {
   createTask = async (dto: CreateTaskDTO) => {
-    return await task.create(dto);
+    return await task.create({ ...dto, description: dto.description ?? null });
   };
 
   updateTask = async (
     id: string,
     { priority, status, title, description }: CreateTaskDTO,
-  ) => {};
+  ) => {
+    return await task.findByIdAndUpdate(id, {
+      priority,
+      status,
+      title,
+      description,
+    });
+  };
 
   getTask = async ({ priority, status }: GetTaskDTO) => {
-    const tasks = await task.find();
+    const filter: any = {};
 
-    return tasks;
+    if (priority) {
+      filter.priority = { $regex: priority, $options: "i" };
+    }
+
+    if (status) {
+      filter.status = { $regex: status, $options: "i" };
+    }
+
+    return await task.find(filter);
   };
 
   deleteTask = async (id: string) => {

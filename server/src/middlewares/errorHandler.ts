@@ -8,6 +8,8 @@ async function errorHandler(
   res: Response,
   _: NextFunction,
 ) {
+  console.error(error);
+
   if (error instanceof AppError) {
     return res.status(error.errorCode).json({
       message: error.errorMessage,

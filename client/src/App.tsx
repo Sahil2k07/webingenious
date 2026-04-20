@@ -1,7 +1,7 @@
 import { useState } from "react";
 import TaskHeader from "./components/TaskHeader";
 import CreateTaskForm from "./components/CreateTaskForm";
-import type { TaskFilters } from "./types/task";
+import type { CreateTaskDTO, TaskFilters } from "./types/task";
 import TaskList from "./components/TaskList";
 
 export default function App() {
@@ -9,6 +9,13 @@ export default function App() {
   const [filter, setFilters] = useState<TaskFilters>({
     status: "",
     priority: "",
+  });
+  const [values, setValues] = useState<CreateTaskDTO>({
+    _id: undefined,
+    title: "",
+    description: "",
+    priority: "low",
+    status: "pending",
   });
 
   return (
@@ -21,9 +28,19 @@ export default function App() {
           setFilters={setFilters}
         />
 
-        <CreateTaskForm openForm={openForm} setOpenFrom={setOpenForm} />
+        <CreateTaskForm
+          openForm={openForm}
+          setOpenFrom={setOpenForm}
+          values={values}
+          setValues={setValues}
+        />
 
-        <TaskList openForm={openForm} />
+        <TaskList
+          setOpenFrom={setOpenForm}
+          openForm={openForm}
+          filter={filter}
+          setValues={setValues}
+        />
       </div>
     </div>
   );

@@ -10,8 +10,8 @@ export const createTaskSchema = z.object({
 export type CreateTaskDTO = z.infer<typeof createTaskSchema>;
 
 export const getTaskSchema = z.object({
-  status: z.enum(["pending", "in-progress", "completed"]).optional(),
-  priority: z.enum(["high", "medium", "low"]).optional(),
+  status: z.string().optional(),
+  priority: z.string().optional(),
 });
 
 export type GetTaskDTO = z.infer<typeof getTaskSchema>;
